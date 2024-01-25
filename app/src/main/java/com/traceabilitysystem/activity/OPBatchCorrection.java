@@ -9,6 +9,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -30,6 +31,9 @@ import com.traceabilitysystem.dummy_model.OPBatchPrintApiResponse;
 import com.traceabilitysystem.dummy_model.OPBatchPrintJSON;
 import com.traceabilitysystem.utils.CommonFunctions;
 
+import java.text.DecimalFormat;
+import java.util.Locale;
+
 import hari.bounceview.BounceView;
 
 public class OPBatchCorrection extends AppCompatActivity implements View.OnClickListener {
@@ -37,6 +41,10 @@ public class OPBatchCorrection extends AppCompatActivity implements View.OnClick
     private IntentIntegrator qrScan;
     private static final int REQUEST_CODE_QR_SCAN = 101;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+    private float ansWeight;
+    private float ansLength;
+    private float ansWidth;
+    private float ansThick;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +88,7 @@ public class OPBatchCorrection extends AppCompatActivity implements View.OnClick
         }
         else if (view == binding.txtGo){
             if (binding.edtOpBatch.getText().toString().trim().isEmpty()){
-                CommonFunctions.getInstance().validationError(OPBatchCorrection.this,"Enter valid OP Batch Number");;
+                CommonFunctions.getInstance().validationError(OPBatchCorrection.this,"Enter valid OP Batch Number");
             }
             else {
                 OPBatchJSON opBatchJSON = new OPBatchJSON();
@@ -120,13 +128,19 @@ public class OPBatchCorrection extends AppCompatActivity implements View.OnClick
                 OPBatchPrintJSON opBatchPrintJSON = new OPBatchPrintJSON();
                 opBatchPrintJSON.setMethod(binding.edtType.getText().toString().trim());
                 opBatchPrintJSON.setEdit("true");
-                opBatchPrintJSON.setGross_weight(binding.edtGrossWeight.getText().toString().trim());
                 opBatchPrintJSON.setCustomer_name(binding.edtCustomerName.getText().toString().trim());
-                opBatchPrintJSON.setThick(binding.edtThick.getText().toString().trim());
-                opBatchPrintJSON.setWidth(binding.edtWidth.getText().toString().trim());
-                opBatchPrintJSON.setLength(binding.edtLength.getText().toString().trim());
                 opBatchPrintJSON.setCustomer_code(binding.edtCustomerCode.getText().toString().trim());
                 opBatchPrintJSON.setOp_batch(binding.edtOpBatch.getText().toString().trim());
+
+               /* opBatchPrintJSON.setGross_weight(binding.edtGrossWeight.getText().toString().trim());
+                opBatchPrintJSON.setThick(binding.edtThick.getText().toString().trim());
+                opBatchPrintJSON.setWidth(binding.edtWidth.getText().toString().trim());
+                opBatchPrintJSON.setLength(binding.edtLength.getText().toString().trim());*/
+
+                opBatchPrintJSON.setGross_weight(ansWeight);
+                opBatchPrintJSON.setThick(ansThick);
+                opBatchPrintJSON.setWidth(ansWidth);
+                opBatchPrintJSON.setLength(ansLength);
 
                 Gson gson = new Gson();
                 String input = gson.toJson(opBatchPrintJSON);
@@ -188,10 +202,68 @@ public class OPBatchCorrection extends AppCompatActivity implements View.OnClick
 
                     binding.edtCustomerCode.setText(apiResponse.getResult().getCustomer_Code());
                     binding.edtCustomerName.setText(apiResponse.getResult().getCustomer_Name());
-                    binding.edtThick.setText(apiResponse.getResult().getThick());
+
+                    if (apiResponse.getResult().getThick() != null && !apiResponse.getResult().getThick().isEmpty()) {
+                       if (apiResponse.getResult().getThick().contains(".")){
+                           String thick = apiResponse.getResult().getThick().replace(",", ".");
+
+                           DecimalFormat decimalFormat = new DecimalFormat("#.###");
+                           Double thick_value = Double.valueOf(thick);
+                           ansThick = Float.valueOf(decimalFormat.format(thick_value));
+                           binding.edtThick.setText(thick_value+"");
+                       }
+                       else {
+                           binding.edtThick.setText(apiResponse.getResult().getThick());
+                       }
+                    }
+
+
+                    if (apiResponse.getResult().getWidth() != null && !apiResponse.getResult().getWidth().isEmpty()) {
+                        if (apiResponse.getResult().getWidth().contains(".")){
+                            String width = apiResponse.getResult().getWidth().replace(",", ".");
+
+                            DecimalFormat decimalFormat = new DecimalFormat("#.###");
+                            Double width_value = Double.valueOf(width);
+                            ansWidth = Float.valueOf(decimalFormat.format(width_value));
+                            binding.edtWidth.setText(ansWidth+"");
+                        }
+                        else {
+                            binding.edtWidth.setText(apiResponse.getResult().getWidth());
+                        }
+                    }
+
+                    if (apiResponse.getResult().getLength() != null && !apiResponse.getResult().getLength().isEmpty()) {
+                        if (apiResponse.getResult().getLength().contains(".")){
+                            String length = apiResponse.getResult().getLength().replace(",", ".");
+
+                            DecimalFormat decimalFormat = new DecimalFormat("#.###");
+                            Double length_value = Double.valueOf(length);
+                            ansLength = Float.valueOf(decimalFormat.format(length_value));
+                            binding.edtLength.setText(ansLength+"");
+                        }
+                        else {
+                            binding.edtLength.setText(apiResponse.getResult().getLength());
+                        }
+                    }
+
+                    if (apiResponse.getResult().getGross_Weight() != null && !apiResponse.getResult().getGross_Weight().isEmpty()) {
+                        if (apiResponse.getResult().getGross_Weight().contains(".")){
+                            String length = apiResponse.getResult().getGross_Weight().replace(",", ".");
+
+                            DecimalFormat decimalFormat = new DecimalFormat("#.###");
+                            Double weight_value = Double.valueOf(length);
+                            ansWeight = Float.valueOf(decimalFormat.format(weight_value));
+                            binding.edtGrossWeight.setText(ansWeight+"");
+                        }
+                        else {
+                            binding.edtGrossWeight.setText(apiResponse.getResult().getGross_Weight());
+                        }
+                    }
+
+                   /* binding.edtThick.setText(apiResponse.getResult().getThick());
                     binding.edtWidth.setText(apiResponse.getResult().getWidth());
                     binding.edtLength.setText(apiResponse.getResult().getLength());
-                    binding.edtGrossWeight.setText(apiResponse.getResult().getGross_Weight());
+                    binding.edtGrossWeight.setText(apiResponse.getResult().getGross_Weight());*/
                 }
                 else {
                     CommonFunctions.getInstance().validationError(OPBatchCorrection.this, apiResponse.getMsg());

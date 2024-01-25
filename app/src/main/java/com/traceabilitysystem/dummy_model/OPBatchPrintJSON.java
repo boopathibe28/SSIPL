@@ -13,19 +13,19 @@ public class OPBatchPrintJSON {
     private String edit;
     @SerializedName("gross_weight")
     @Expose
-    private String gross_weight;
+    private float gross_weight;
     @SerializedName("customer_name")
     @Expose
     private String customer_name;
     @SerializedName("thick")
     @Expose
-    private String thick;
+    private float thick;
     @SerializedName("width")
     @Expose
-    private String width;
+    private float width;
     @SerializedName("length")
     @Expose
-    private String length;
+    private float length;
     @SerializedName("customer_code")
     @Expose
     private String customer_code;
@@ -49,14 +49,6 @@ public class OPBatchPrintJSON {
         this.edit = edit;
     }
 
-    public String getGross_weight() {
-        return gross_weight;
-    }
-
-    public void setGross_weight(String gross_weight) {
-        this.gross_weight = gross_weight;
-    }
-
     public String getCustomer_name() {
         return customer_name;
     }
@@ -65,29 +57,6 @@ public class OPBatchPrintJSON {
         this.customer_name = customer_name;
     }
 
-    public String getThick() {
-        return thick;
-    }
-
-    public void setThick(String thick) {
-        this.thick = thick;
-    }
-
-    public String getWidth() {
-        return width;
-    }
-
-    public void setWidth(String width) {
-        this.width = width;
-    }
-
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
 
     public String getCustomer_code() {
         return customer_code;
@@ -103,5 +72,38 @@ public class OPBatchPrintJSON {
 
     public void setOp_batch(String op_batch) {
         this.op_batch = op_batch;
+    }
+
+
+    public float getGross_weight() {
+        return gross_weight;
+    }
+
+    public void setGross_weight(float gross_weight) {
+        this.gross_weight = gross_weight;
+    }
+
+    public float getThick() {
+        return thick;
+    }
+
+    public void setThick(float thick) {
+        this.thick = thick;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
     }
 }
