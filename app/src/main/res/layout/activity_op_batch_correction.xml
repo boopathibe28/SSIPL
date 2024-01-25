@@ -387,6 +387,7 @@
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/proximanova_regular"
                                 android:singleLine="true"
+                                android:inputType="numberDecimal"
                                 android:textColor="@color/dark_gray"
                                 android:textSize="@dimen/_12sdp" />
 
@@ -435,6 +436,7 @@
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/proximanova_regular"
                                 android:singleLine="true"
+                                android:inputType="numberDecimal"
                                 android:textColor="@color/dark_gray"
                                 android:textSize="@dimen/_12sdp" />
 
@@ -483,6 +485,7 @@
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/proximanova_regular"
                                 android:singleLine="true"
+                                android:inputType="numberDecimal"
                                 android:textColor="@color/dark_gray"
                                 android:textSize="@dimen/_12sdp" />
 
@@ -531,6 +534,7 @@
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/proximanova_regular"
                                 android:singleLine="true"
+                                android:inputType="numberDecimal"
                                 android:textColor="@color/dark_gray"
                                 android:textSize="@dimen/_12sdp" />
 

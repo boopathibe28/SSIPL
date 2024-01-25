@@ -125,6 +125,24 @@ public class OPBatchCorrection extends AppCompatActivity implements View.OnClick
                 CommonFunctions.getInstance().validationError(OPBatchCorrection.this,"Enter valid Gross Weight");
             }
             else {
+                DecimalFormat decimalFormat = new DecimalFormat("#.###");
+
+                String thick = binding.edtThick.getText().toString().trim().replace(",", ".");
+                Double thick_value = Double.valueOf(thick);
+                ansThick = Float.valueOf(decimalFormat.format(thick_value));
+
+                String width = binding.edtWidth.getText().toString().trim().replace(",", ".");
+                Double width_value = Double.valueOf(width);
+                ansWidth = Float.valueOf(decimalFormat.format(width_value));
+
+                String length = binding.edtLength.getText().toString().trim().replace(",", ".");
+                Double length_value = Double.valueOf(length);
+                ansLength = Float.valueOf(decimalFormat.format(length_value));
+
+                String weight = binding.edtGrossWeight.getText().toString().trim().replace(",", ".");
+                Double weight_value = Double.valueOf(weight);
+                ansWeight = Float.valueOf(decimalFormat.format(weight_value));
+
                 OPBatchPrintJSON opBatchPrintJSON = new OPBatchPrintJSON();
                 opBatchPrintJSON.setMethod(binding.edtType.getText().toString().trim());
                 opBatchPrintJSON.setEdit("true");
@@ -248,10 +266,10 @@ public class OPBatchCorrection extends AppCompatActivity implements View.OnClick
 
                     if (apiResponse.getResult().getGross_Weight() != null && !apiResponse.getResult().getGross_Weight().isEmpty()) {
                         if (apiResponse.getResult().getGross_Weight().contains(".")){
-                            String length = apiResponse.getResult().getGross_Weight().replace(",", ".");
+                            String weight = apiResponse.getResult().getGross_Weight().replace(",", ".");
 
                             DecimalFormat decimalFormat = new DecimalFormat("#.###");
-                            Double weight_value = Double.valueOf(length);
+                            Double weight_value = Double.valueOf(weight);
                             ansWeight = Float.valueOf(decimalFormat.format(weight_value));
                             binding.edtGrossWeight.setText(ansWeight+"");
                         }
